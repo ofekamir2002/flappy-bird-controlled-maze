@@ -5,7 +5,7 @@ A complete arcade game implemented entirely in hardware on an Intel DE-10 FPGA b
 The bird drifts on its own, and the player raises and lowers the pipes to open a path for it.
 
 Final project for *Electrical Engineering Laboratory 1A*, Technion – Israel Institute of Technology.
-**Grade: 100 (project), 99 (course).**
+**Grade: 100 (project and course).**
 
 ---
 
@@ -44,9 +44,18 @@ are spawned.
 | --- | --- |
 | `8` | Move pipes up |
 | `2` | Move pipes down |
-| `Left` / `Right` | Select difficulty in the menu |
-| `Enter` | Confirm selection / start game |
-| `Start again` | Restart after game over |
+| `4` / `6` | Move between options in the menu |
+| `Enter` | Confirm the selected menu option |
+| `0` | Activate diamond mode — shields the bird from incoming missiles |
+| `+` | Return to the menu after being disqualified |
+
+The project demo is capped at two minutes, so two keys let us reach the states worth showing
+without having to play through them:
+
+| Key | Action |
+| --- | --- |
+| `7` | Jumps the score straight to 49, so the high-score behaviour can be demonstrated |
+| `1` | Ends the run immediately, so the game-over screen can be shown without losing all three lives |
 
 Input is read from a PS/2 keyboard through a dedicated keypad decoder module.
 
@@ -63,7 +72,7 @@ Input is read from a PS/2 keyboard through a dedicated keypad decoder module.
   melody player
 - **Randomized behavior** — pipe spawning, gap placement and bird motion driven by a
   pseudo-random generator
-- **Special modes** — shield/boss mode and additional hidden modes
+- **Diamond mode** — a special shielded state that protects the bird from incoming missiles
 
 ---
 
@@ -113,7 +122,7 @@ The design is built as a hierarchical schematic (BDF) top level over SystemVeril
 | `HeartDisplay` | Lives display as a heart matrix |
 | `menuBlock` | Menu screen rendering and difficulty selection |
 | `game_over_block` | Game over screen |
-| `rocketBlock` | Special-mode object |
+| `rocketBlock` | Incoming-missile object used in diamond mode |
 | `SoundSelector` | Chooses the melody for the current screen |
 | `ToneDecoder` | Converts note data into output tones |
 | `random` | Pseudo-random source for spawning and bird motion |
@@ -132,7 +141,7 @@ Sprite graphics are stored as bitmap modules and `.mif` memory initialization fi
                | Start
                v
           +---------+
-    +---->| MENU_ST |  choose difficulty (Left / Right)
+    +---->| MENU_ST |  choose difficulty (keys 4 / 6)
     |     +----+----+
     |          |
     |   Enter: Easy / Medium / Hard
@@ -148,11 +157,12 @@ Sprite graphics are stored as bitmap modules and `.mif` memory initialization fi
     |                 v
     |        +----------------+
     +--------+  GAME_OVER_ST  |
-       Start  +----------------+
+        +    +----------------+
 ```
 
 Each difficulty state configures the starting number of lives, the scroll speed and the spawn
-behavior, then hands control to the shared gameplay logic.
+behavior, then hands control to the shared gameplay logic. Pressing `+` on the game-over screen
+returns to the menu.
 
 ---
 
@@ -221,6 +231,4 @@ where the fix belonged.
 
 **Ofek Amir** and **Dor Mandel**
 
-Computer Engineering, Technion – Israel Institute of Technology
-
-Lab instructors: Alon and Dani
+Faculty of Electrical and Computer Engineering, Technion – Israel Institute of Technology
