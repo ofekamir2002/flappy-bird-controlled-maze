@@ -128,6 +128,11 @@ The design is built as a hierarchical schematic (BDF) top level over SystemVeril
 | `random` | Pseudo-random source for spawning and bird motion |
 | `KBD` | PS/2 keyboard interface |
 
+`VGA_Controller`, `KBD`, `ToneDecoder` and `random` were supplied by the course as ready-made
+building blocks. Every other module was written or substantially modified by us, along with all
+the interfacing between them — reading player input from the keyboard decoder and driving the
+game from the random source included.
+
 Sprite graphics are stored as bitmap modules and `.mif` memory initialization files.
 
 ---
@@ -223,7 +228,7 @@ where the fix belonged.
 - Development was split into rounds of sub-tasks across the two team members, with earlier lab
   modules reused where possible to stay within the board's memory budget.
 - AI tools were used for bitmap asset generation and as an aid while interpreting SignalTap
-  captures; all RTL design and integration is our own.
+  captures; the RTL we wrote, and the integration of the whole design, is our own.
 
 ---
 
